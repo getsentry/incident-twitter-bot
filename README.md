@@ -10,7 +10,7 @@ As part of the cookieless project, we noticed that twitter related cookies are d
 
 We tried to use the custom JavaScript and CSS feature in Statuspage to remove the Twitter embedded, but was only able to remove it after the script was dropped but not before, in which Twitter cookies are still dropped on our statuspage. We also reached out Atlassian support team on this, but we were only offered with a feature request but no real solution.
 
-To remove the Twitter cookies and tracker, but also retain the functionality to share updates to Twitter, we decide to build something in house that rely on webhook and Google Cloud Function to deliver the feature.
+To remove the Twitter cookies and tracker, but also retain the functionality to share updates to Twitter, we decided to build something in house that relies on webhook and Google Cloud Function to deliver the feature.
 </details>
 
 
