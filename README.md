@@ -5,6 +5,7 @@ This is a GCP Cloud Function that subscirbed to [Sentry Statuspage](https://stat
 # Backstory
 <details>
     <summary>Why are we doing this</summary>
+
 As part of the cookieless project, we noticed that twitter related cookies are dropped on the status.sentry.io page. After some investigation, we identified that it was dropped by the Twitter embedded from the Subscribe to Updates feature.
 
 We tried to use the custom JavaScript and CSS feature in Statuspage to remove the Twitter embedded, but was only able to remove it after the script was dropped but not before, in which Twitter cookies are still dropped on our statuspage. We also reached out Atlassian support team on this, but we were only offered with a feature request but no real solution.
@@ -74,7 +75,6 @@ https://support.atlassian.com/statuspage/docs/enable-webhook-notifications/
 <details> 
     <summary> Example Incident Webhook</summary>
     
-    ```json
     {
        "meta":{
           "unsubscribe":"http://statustest.flyingkleinbrothers.com:5000/?unsubscribe=j0vqr9kl3513",
@@ -146,13 +146,11 @@ https://support.atlassian.com/statuspage/docs/enable-webhook-notifications/
           "name":"Virginia Is Down"
        }
     }
-    ```
 </details>
     
 <details> 
     <summary>Example Component update Webhook</summary>
     
-    ```json
     {
        "meta":{
           "unsubscribe":"http://statustest.flyingkleinbrothers.com:5000/?unsubscribe=j0vqr9kl3513",
@@ -177,7 +175,6 @@ https://support.atlassian.com/statuspage/docs/enable-webhook-notifications/
           "status":"operational"
        }
     }
-    ```
 </details>
 
 
@@ -185,7 +182,7 @@ https://support.atlassian.com/statuspage/docs/enable-webhook-notifications/
 
 ## Outputs
 
-If the request is a valid request originated from Atlassian Statuspage, the function will always return a 200 success to ensure the webhook does not get treated as not working.
+If the request is a valid request originated from Atlassian Statuspage, the function will always return a 200 success to ensure it does not get treated as dead webhook, otherwise it will be deactivated in Atlassian Statuspage.
 
 Webhook request will be ignored if any of the following is true
 
@@ -195,5 +192,6 @@ Webhook request will be ignored if any of the following is true
 - No `incident` component in the request
 
 If an incident component is found in the webhook request, a post will be posted to twitter with the following format:
-
-> [status] `incident_status`: `incident_update`  `link_to_incident`
+```
+[status] `incident_status`: `incident_update`  `link_to_incident`
+```
