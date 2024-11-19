@@ -26,11 +26,6 @@ module "incident-twitter-bot" {
       key     = "getsentryhelp_twitter_access_token_secret"
       secret  = google_secret_manager_secret.secret["getsentryhelp_twitter_access_token_secret"].secret_id
       version = "latest"
-    },
-    {
-      key     = "getsentryhelp_webhook_auth_header"
-      secret  = google_secret_manager_secret.secret["getsentryhelp_webhook_auth_header"].secret_id
-      version = "latest"
-    },
+    }
   ]
 }

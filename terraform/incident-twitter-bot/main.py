@@ -3,6 +3,7 @@ import logging
 from requests_oauthlib import OAuth1Session
 import requests
 import sentry_sdk
+from sentry_sdk.integrations.gcp import GcpIntegration
 
 from ipaddress import ip_address, ip_network
 
@@ -15,9 +16,15 @@ sentry_sdk.init(
     ],
 )
 
-getsentryhelp_twitter_consumer_key = os.environ.get("getsentryhelp_twitter_consumer_key")
-getsentryhelp_twitter_consumer_secret = os.environ.get("getsentryhelp_twitter_consumer_secret")
-getsentryhelp_twitter_access_token = os.environ.get("getsentryhelp_twitter_access_token")
+getsentryhelp_twitter_consumer_key = os.environ.get(
+    "getsentryhelp_twitter_consumer_key"
+)
+getsentryhelp_twitter_consumer_secret = os.environ.get(
+    "getsentryhelp_twitter_consumer_secret"
+)
+getsentryhelp_twitter_access_token = os.environ.get(
+    "getsentryhelp_twitter_access_token"
+)
 getsentryhelp_twitter_access_token_secret = os.environ.get(
     "getsentryhelp_twitter_access_token_secret"
 )
@@ -58,7 +65,7 @@ def validate_incident(request_json):
         return False
     else:
         message = "[status] {}: {} {}".format(
-            (request_json["incident"]["status"]).capitalize().replace("_"," "),
+            (request_json["incident"]["status"]).capitalize().replace("_", " "),
             request_json["incident"]["incident_updates"][0]["body"],
             request_json["incident"]["shortlink"],
         )
@@ -74,7 +81,7 @@ def validate_component(request_json):
         return False
     else:
         message = "[status] {}: {} https://status.sentry.io".format(
-            (request_json["component"]["status"]).capitalize().replace("_"," "),
+            (request_json["component"]["status"]).capitalize().replace("_", " "),
             request_json["component"]["name"],
         )
         return message
@@ -94,10 +101,12 @@ def post_to_twitter(payload):
     )
 
     if response.status_code != 201:
-        logging.exception("Request returned an error: {} {}".format(
+        logging.exception(
+            "Request returned an error: {} {}".format(
                 response.status_code, response.text
-            ))
-    return "Success",200
+            )
+        )
+    return "Success", 200
 
 
 def main(request):
@@ -117,15 +126,15 @@ def main(request):
         message = validate_incident(request_json)
     elif "component" in request_json:
         message = validate_component(request_json)
-        return "Success",200
+        return "Success", 200
     else:
         logging.error("no incidnet nor have compnenet")
-        return "Success",200
+        return "Success", 200
 
     if message != False:
         return post_to_twitter({"text": message})
     else:
-        return "Success",200
+        return "Success", 200
 
 
 if __name__ == "__main__":
