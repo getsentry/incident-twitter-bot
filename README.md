@@ -1,3 +1,6 @@
+> Bot deprecated, Twitter changed their pricing model and it no longer work for free.
+All resource destroyed in Terraform, GCP project shutdown
+
 # incident-twitter-bot
  
 This is a GCP Cloud Function that subscirbed to [Sentry Statuspage](https://status.sentry.io/) and post the incident updates on the [Sentry Support Twitter Account](https://x.com/getsentryhelp)
